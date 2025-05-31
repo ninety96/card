@@ -1,0 +1,140 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>电子工牌生成器</title>
+    <script src="https://cdn.bootcdn.net/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f6f7fb;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .form-group {
+            margin: 10px;
+        }
+
+        input {
+            padding: 8px;
+            font-size: 16px;
+            width: 200px;
+        }
+
+        #badge {
+            background: #ffffff;
+            border: 2px solid #ccc;
+            border-radius: 12px;
+            display: inline-block;
+            padding: 20px;
+            margin-top: 20px;
+            width: 320px;
+            position: relative;
+        }
+
+        .logo {
+            width: 200px;
+            margin-bottom: 10px;
+        }
+
+        .info {
+            text-align: left;
+            font-size: 16px;
+            line-height: 1.8;
+            margin-left: 20px;
+        }
+
+        .avatar {
+            width: 60px;
+            height: 80px;
+            background: #ccc;
+            float: left;
+            margin-right: 10px;
+        }
+
+        #time {
+            font-size: 18px;
+            color: #2a4d87;
+            margin: 15px 0;
+        }
+
+        .check {
+            width: 100px;
+            margin-top: 15px;
+        }
+
+        button {
+            margin-top: 15px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<h2>电子工牌生成器</h2>
+
+<div class="form-group">
+    <input type="text" id="nameInput" placeholder="请输入姓名" value="许嘉敏">
+</div>
+<div class="form-group">
+    <input type="text" id="genderInput" placeholder="请输入性别" value="男">
+</div>
+
+<div id="badge">
+    <img src="https://img.alicdn.com/imgextra/i1/2398241673/O1CN01zG8MJJ1qPLKlRIGDk_!!2398241673.png" class="logo" alt="logo">
+    <div class="info">
+        <div class="avatar"></div>
+        <div>姓名：<span id="nameDisplay">许嘉敏</span></div>
+        <div>性别：<span id="genderDisplay">男</span></div>
+        <div>工号：580101</div>
+        <div>手机：18336837056</div>
+        <div>门店：百货大卫城店</div>
+        <div>专柜：华为</div>
+        <div>入职日期：2024-05-15</div>
+    </div>
+    <div style="clear: both;"></div>
+    <div id="time"></div>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/Yes_Check_Circle.svg/2048px-Yes_Check_Circle.svg.png" class="check" alt="check">
+</div>
+
+<button onclick="saveBadge()">生成图片</button>
+
+<script>
+    function updateTime() {
+        const now = new Date();
+        const y = now.getFullYear();
+        const m = String(now.getMonth() + 1).padStart(2, '0');
+        const d = String(now.getDate()).padStart(2, '0');
+        const h = String(now.getHours()).padStart(2, '0');
+        const min = String(now.getMinutes()).padStart(2, '0');
+        const s = String(now.getSeconds()).padStart(2, '0');
+        document.getElementById('time').textContent = `${y}/${m}/${d} ${h}:${min}:${s}`;
+    }
+
+    setInterval(updateTime, 1000);
+    updateTime();
+
+    document.getElementById('nameInput').addEventListener('input', function () {
+        document.getElementById('nameDisplay').textContent = this.value;
+    });
+
+    document.getElementById('genderInput').addEventListener('input', function () {
+        document.getElementById('genderDisplay').textContent = this.value;
+    });
+
+    function saveBadge() {
+        html2canvas(document.getElementById('badge')).then(canvas => {
+            const link = document.createElement('a');
+            link.download = '电子工牌.png';
+            link.href = canvas.toDataURL();
+            link.click();
+        });
+    }
+</script>
+
+</body>
+</html>
